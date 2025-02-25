@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Recorder</title>
+</head>
+<body>
+    <h1>Screen Recorder</h1>
+    <label for="resolution">Resolution:</label>
+    <select id="resolution">
+        <option value="1920x1080">1080p</option>
+        <option value="1280x720">720p</option>
+        <option value="640x480">480p</option>
+    </select>
+    
+    <label for="framerate">Frame Rate:</label>
+    <input type="number" id="framerate" value="30" min="1" max="60">
+    
+    <button id="start">Start Recording</button>
+    <button id="stop" disabled>Stop Recording</button>
+    <a id="download" style="display: none;">Download</a>
+    
+    <script>
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        document.getElementById('start').addEventListener('click', async () => {
+            const resolution = document.getElementById('resolution').value.split('x');
+            const frameRate = parseInt(document.getElementById('framerate').value, 10);
+            
+            const stream = await navigator.mediaDevices.getDisplayMedia({
+                video: {
+                    width: parseInt(resolution[0], 10),
+                    height: parseInt(resolution[1], 10),
+                    frameRate: frameRate
+                }
+            });
+            
+            mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+            mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const downloadLink = document.getElementById('download');
+                downloadLink.href = url;
+                downloadLink.download = 'recording.webm';
+                downloadLink.style.display = 'block';
+                downloadLink.textContent = 'Download Recording';
+            };
+            
+            mediaRecorder.start();
+            document.getElementById('start').disabled = true;
+            document.getElementById('stop').disabled = false;
+        });
+        
+        document.getElementById('stop').addEventListener('click', () => {
+            mediaRecorder.stop();
+            document.getElementById('start').disabled = false;
+            document.getElementById('stop').disabled = true;
+        });
+    </script>
+</body>
+</html>
