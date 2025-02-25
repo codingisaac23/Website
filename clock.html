@@ -5,24 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paducah, KY Digital Clock</title>
     <style>
+        /* General Page Styling */
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: black;
-            color: lime;
-            font-family: Arial, sans-serif;
-            font-size: 3rem;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: linear-gradient(135deg, #6dd5ed, #2193b0);
+            color: #ffffff;
         }
+
+        /* Clock Styling */
         #clock {
-            border: 2px solid lime;
+            font-size: 3rem;
             padding: 20px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+    <h1>Paducah, KY Digital Clock</h1>
+    <nav>
+        <ul>
+            <li><a href="aboutme.html">About Me</a></li>
+            <li><a href="contactme.html">Contact Me</a></li>
+            <li><a href="lateststream.html">Latest Stream</a></li>
+             <li><a href="downloads.html">Downloads</a></li>
+             <li><a href="search.html">Search</a></li>
+             <li><a href="searchandplay.html">Search and Play</a></li>
+             <li><a href="screenrecorder.html">Screen Recorder</a></li>
+             <li><a href="clock.html">Clock</a></li>
+        </ul>
+    </nav>
     <div id="clock">Loading...</div>
     <script>
         function updateClock() {
@@ -39,5 +57,10 @@
         setInterval(updateClock, 1000);
         updateClock();
     </script>
+       <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            </ui>
+</nav>
 </body>
 </html>
