@@ -315,3 +315,101 @@ iframe {
         height: 250px;
     }
 }
+
+/* General Page Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  color: white;
+}
+
+h1 {
+  font-size: 36px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+select, input {
+  font-size: 16px;
+  padding: 8px;
+  margin: 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  font-size: 18px;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #00a8e8;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background: #0096c7;
+}
+
+#download {
+  display: none;
+  font-size: 18px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  background: #0077b6;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+#download:hover {
+  background: #005f8e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 {
+      font-size: 28px;
+  }
+  label, select, input, button {
+      font-size: 16px;
+  }
+  button {
+      padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+      font-size: 24px;
+  }
+  label, select, input, button {
+      font-size: 14px;
+  }
+  button {
+      padding: 6px 12px;
+  }
+}
+
+/* Linking CSS to HTML */
+<link rel="stylesheet" href="styles.css">
