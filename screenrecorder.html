@@ -243,6 +243,10 @@
             const resolution = document.getElementById('resolution').value.split('x');
             const frameRate = parseInt(document.getElementById('framerate').value, 10);
             
+            // Clear the previous recording link and reset the download link
+            const downloadLink = document.getElementById('download');
+            downloadLink.style.display = 'none'; // Hide the previous download link
+    
             // Get the media stream
             stream = await navigator.mediaDevices.getDisplayMedia({
                 video: {
@@ -257,7 +261,6 @@
             mediaRecorder.onstop = () => {
                 const blob = new Blob(recordedChunks, { type: 'video/webm' });
                 const url = URL.createObjectURL(blob);
-                const downloadLink = document.getElementById('download');
                 downloadLink.href = url;
                 downloadLink.download = 'recording.webm';
                 downloadLink.style.display = 'block';
@@ -276,6 +279,7 @@
             document.getElementById('stop').disabled = true;
         });
     </script>
+    
     
 </body>
 </html>
