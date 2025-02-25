@@ -237,12 +237,14 @@
     <script>
         let mediaRecorder;
         let recordedChunks = [];
-
+        let stream;
+    
         document.getElementById('start').addEventListener('click', async () => {
             const resolution = document.getElementById('resolution').value.split('x');
             const frameRate = parseInt(document.getElementById('framerate').value, 10);
             
-            const stream = await navigator.mediaDevices.getDisplayMedia({
+            // Get the media stream
+            stream = await navigator.mediaDevices.getDisplayMedia({
                 video: {
                     width: parseInt(resolution[0], 10),
                     height: parseInt(resolution[1], 10),
@@ -269,9 +271,11 @@
         
         document.getElementById('stop').addEventListener('click', () => {
             mediaRecorder.stop();
+            stream.getTracks().forEach(track => track.stop());  // Stop the screen capture
             document.getElementById('start').disabled = false;
             document.getElementById('stop').disabled = true;
         });
     </script>
+    
 </body>
 </html>
