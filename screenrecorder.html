@@ -243,7 +243,8 @@
             const resolution = document.getElementById('resolution').value.split('x');
             const frameRate = parseInt(document.getElementById('framerate').value, 10);
             
-            // Clear the previous recording link and reset the download link
+            // Clear the previous recorded data and reset the download link
+            recordedChunks = []; // Reset recorded chunks to clear the old data
             const downloadLink = document.getElementById('download');
             downloadLink.style.display = 'none'; // Hide the previous download link
     
@@ -279,7 +280,8 @@
             document.getElementById('stop').disabled = true;
         });
     </script>
-    
+
+<p1>this is the new one</p1>
     
 </body>
 </html>
