@@ -174,34 +174,38 @@
         });
 
         async function uploadToDropbox(blob) {
-            const ACCESS_TOKEN = 'sl.u.AFkwEXzDBt1pLdCEJZS5RkPfnVyvXqs3pVOiWDgAbAToIeUE1jlwdPNZcANNCaQonUi8CsDjnJCn7npktZvsL_FpbHqGVto0OEOHs7PJn5b93k7-NaL8JAhd51hHGCZ63p_LSr491GXQwcrTxUVaHLglki4jIe_X54C6EgdXYdIRVwVmG_bRI0RbKOwvsi1Jw0z8j-WNGhU-gV-PowNBuZs8RlW9xp09gIvPns50SX_veY2MrLXC_Sg3ZXEn3DUSRsW2S72mM9IJjJ1BCHdLAK9x4DM6F1tNI0DWHjIqP5LCUHKlMmR5UF3LOJ3waaw_nfiB1T9fw8-ac6QCvMhw8tMZhyl7bWihcuGvwOri6kVinqp9UJcBf8qfIDaTqMzpsvIsfDjERIyj75fk7hSTew4GiAogf0wL58asH3tz43cfR2-Lu2YzssJCQN9xwDo6_Lehwsa3UrdxlHRPHBAUZnp16RM7mHm0YzVlAh6wQicvzo67Xqvae_lGO-I6jyjgu3VtdKKP6doqwuoDETTe66ncYcscUFBFfiBNpSj2r2i3YJW567TFTBWG8c1d-PXeyyUEeTvi3U1I0BTpg5Xa7pLZ-GB6b1xfJ0886VEZypDoticEN6jHyaeZ8v4jyWO7K8ivENWOTNy7pL9_DJhWM26j0yMrETrHIREvA4ueeBFVMFcqFKXY4gVWdaUq4_I-kQtkyskH0ec456RIKsJu-B-I2hfL5rrBuYI4DdzA4zPN6eRGs5NxxwUhHQjxpbVprMnRJzVgxacdixwVmyTmF3J86vTOkaUmngbpOpunZ3Blkn0tyMDaz6Foe4sd5DJHdIUwK-DTf8Hvo35ZuYtyc6vDeExSN1irGqmVcDQgR3HzIo6DBV4FSE0_5qGYD23s40WoRaSBoIs8gAL5LS4xWt04ZGhuUuJUEuyWAvjvG8Vpcl2EOetsKJ3PHtT3iWIiM4D2YcHt0JM8w61p2TggdVsQshpxYnVShTxbfDNuQSl14XsNHr6VuF_NAAzDwJ2ETBoHuuCS4t7HQTOYP7AIy2AHoZeqiZgJ9M4-6Y0mQT2Pc5LoreM01LvWQsNutcHS_20XlyAsQFOLjUrj_cM33YB9K2uiJLFpS7h_cnQHFIr8fd7N_tOmooxK1emI5OrKBFeFvKOQQlUzOHHlES48F99AqBKKQIH9ti4W8PRNT6WobSfXPDTUGPYGZS6L_gQ60CG8OrrbIJl30eu_f9V_plKfbehU9Ww0eo8yWzGslnutHvJAeyV6VrCYKVbVk_fkuLohqb2gxGM9Cn9dOWjZyLp3RrDJJMp9y4yJdnCLK-3j45Q1QA2d8BJb-LcWNitGou8a82ceyi6TN83_VV4M77-re-bVjnL6uPP7dM7LRrOVXTJ1qS0XlXpBLIJ-JNB5Ib9ZNtTTkQhhUN93AxzsvpMzgyBQFo_wi__RDJlI4w-9kperREfsxcs45f-hn36Kk6Y'; // Replace with your actual token
-            const fileName = `recording-${Date.now()}.webm`;
+    const ACCESS_TOKEN = 'sl.u.AFkwEXzDBt1pLdCEJZS5RkPfnVyvXqs3pVOiWDgAbAToIeUE1jlwdPNZcANNCaQonUi8CsDjnJCn7npktZvsL_FpbHqGVto0OEOHs7PJn5b93k7-NaL8JAhd51hHGCZ63p_LSr491GXQwcrTxUVaHLglki4jIe_X54C6EgdXYdIRVwVmG_bRI0RbKOwvsi1Jw0z8j-WNGhU-gV-PowNBuZs8RlW9xp09gIvPns50SX_veY2MrLXC_Sg3ZXEn3DUSRsW2S72mM9IJjJ1BCHdLAK9x4DM6F1tNI0DWHjIqP5LCUHKlMmR5UF3LOJ3waaw_nfiB1T9fw8-ac6QCvMhw8tMZhyl7bWihcuGvwOri6kVinqp9UJcBf8qfIDaTqMzpsvIsfDjERIyj75fk7hSTew4GiAogf0wL58asH3tz43cfR2-Lu2YzssJCQN9xwDo6_Lehwsa3UrdxlHRPHBAUZnp16RM7mHm0YzVlAh6wQicvzo67Xqvae_lGO-I6jyjgu3VtdKKP6doqwuoDETTe66ncYcscUFBFfiBNpSj2r2i3YJW567TFTBWG8c1d-PXeyyUEeTvi3U1I0BTpg5Xa7pLZ-GB6b1xfJ0886VEZypDoticEN6jHyaeZ8v4jyWO7K8ivENWOTNy7pL9_DJhWM26j0yMrETrHIREvA4ueeBFVMFcqFKXY4gVWdaUq4_I-kQtkyskH0ec456RIKsJu-B-I2hfL5rrBuYI4DdzA4zPN6eRGs5NxxwUhHQjxpbVprMnRJzVgxacdixwVmyTmF3J86vTOkaUmngbpOpunZ3Blkn0tyMDaz6Foe4sd5DJHdIUwK-DTf8Hvo35ZuYtyc6vDeExSN1irGqmVcDQgR3HzIo6DBV4FSE0_5qGYD23s40WoRaSBoIs8gAL5LS4xWt04ZGhuUuJUEuyWAvjvG8Vpcl2EOetsKJ3PHtT3iWIiM4D2YcHt0JM8w61p2TggdVsQshpxYnVShTxbfDNuQSl14XsNHr6VuF_NAAzDwJ2ETBoHuuCS4t7HQTOYP7AIy2AHoZeqiZgJ9M4-6Y0mQT2Pc5LoreM01LvWQsNutcHS_20XlyAsQFOLjUrj_cM33YB9K2uiJLFpS7h_cnQHFIr8fd7N_tOmooxK1emI5OrKBFeFvKOQQlUzOHHlES48F99AqBKKQIH9ti4W8PRNT6WobSfXPDTUGPYGZS6L_gQ60CG8OrrbIJl30eu_f9V_plKfbehU9Ww0eo8yWzGslnutHvJAeyV6VrCYKVbVk_fkuLohqb2gxGM9Cn9dOWjZyLp3RrDJJMp9y4yJdnCLK-3j45Q1QA2d8BJb-LcWNitGou8a82ceyi6TN83_VV4M77-re-bVjnL6uPP7dM7LRrOVXTJ1qS0XlXpBLIJ-JNB5Ib9ZNtTTkQhhUN93AxzsvpMzgyBQFo_wi__RDJlI4w-9kperREfsxcs45f-hn36Kk6Y'; // Replace with your real token
+    const fileName = `recording-${Date.now()}.webm`;
 
-            try {
-                const response = await fetch('https://content.dropboxapi.com/2/files/upload', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${ACCESS_TOKEN}`,
-                        'Dropbox-API-Arg': JSON.stringify({
-                            path: `/${fileName}`,
-                            mode: 'add',
-                            autorename: true,
-                            mute: false
-                        }),
-                        'Content-Type': 'application/vnd.dropbox-api.v2+json'
+    try {
+        const response = await fetch('https://content.dropboxapi.com/2/files/upload', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${ACCESS_TOKEN}`,
+                'Dropbox-API-Arg': JSON.stringify({
+                    path: `/${fileName}`,
+                    mode: 'add',
+                    autorename: true,
+                    mute: false
+                }),
+                'Content-Type': 'application/octet-stream'
+            },
+            body: blob
+        });
 
-                    },
-                    body: blob
-                });
-
-                const data = await response.json();
-                console.log('File uploaded:', data);
-                alert(`Uploaded to Dropbox: ${data.path_display}`);
-            } catch (error) {
-                console.error('Upload failed:', error);
-                alert('Failed to upload to Dropbox.');
-            }
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
+        const data = await response.json();
+        console.log('File uploaded:', data);
+        alert(`Uploaded to Dropbox: ${data.path_display}`);
+    } catch (error) {
+        console.error('Upload failed:', error);
+        alert('Failed to upload to Dropbox. Check console for details.');
+    }
+}
+
     </script>
 
     <nav>
