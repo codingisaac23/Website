@@ -70,7 +70,7 @@
 
         document.getElementById('login').addEventListener('click', () => {
             const client = google.accounts.oauth2.initTokenClient({
-                client_id: '796361226146-u546a7qior1f27nf9j65v3r5cofd4fb8.apps.googleusercontent.com, // Replace with your actual Google Client ID
+                client_id: '796361226146-u546a7qior1f27nf9j65v3r5cofd4fb8.apps.googleusercontent.com", // Replace with your actual Google Client ID
                 scope: 'https://www.googleapis.com/auth/drive.file',
                 callback: (response) => {
                     if (response.access_token) {
