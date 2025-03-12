@@ -4,6 +4,117 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Red5 Player Embed</title>
+        <style>
+            /* General Page Styling */
+            body {
+              font-family: 'Arial', sans-serif;
+              margin: 0;
+              padding: 0;
+              text-align: center;
+              background: linear-gradient(135deg, #6dd5ed, #2193b0);
+              color: #ffffff;
+            }/* Navigation Bar */
+        nav {
+          background: #0077b6;
+          padding: 15px;
+          border-radius: 20px;
+          margin: 20px auto;
+          width: 90%;
+          box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        nav ul {
+          list-style: none;
+          padding: 0;
+        }
+        
+        nav ul li {
+          display: inline;
+          margin: 0 15px;
+        }
+        
+        nav ul li a {
+          text-decoration: none;
+          font-weight: bold;
+          color: white;
+          font-size: 18px;
+          padding: 10px 20px;
+          background: #00a8e8;
+          border-radius: 10px;
+          transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+          background: #0096c7;
+        }
+        
+        /* Main Content */
+        h1 {
+          font-size: 36px;
+          color: white;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        p {
+          font-size: 18px;
+          color: white;
+          margin: 10px 0;
+        }
+        
+        /* Search Bar and Button */
+        input[type="text"] {
+          padding: 8px;
+          width: 300px;
+          border-radius: 10px;
+          border: 2px solid #00a8e8;
+        }
+        
+        button {
+          padding: 8px 12px;
+          cursor: pointer;
+          background: #00a8e8;
+          color: white;
+          border: none;
+          border-radius: 10px;
+          font-size: 16px;
+          transition: all 0.3s ease;
+        }
+        
+        button:hover {
+          background: #0096c7;
+        }
+        
+        /* Video Results Section */
+        #results {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          margin-top: 20px;
+          gap: 15px;
+        }
+        
+        .video-result {
+          cursor: pointer;
+          text-align: center;
+          width: 200px;
+        }
+        
+        .video-result img {
+          width: 100%;
+          border-radius: 8px;
+        }
+        
+        .video-result p {
+          font-size: 14px;
+          margin-top: 5px;
+        }
+        
+        /* Video Player */
+        #videoPlayer {
+          margin-top: 20px;
+        }
+        
+          </style>
       </head>
 <body>
     <nav>
