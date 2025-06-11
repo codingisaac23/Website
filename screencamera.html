@@ -36,11 +36,12 @@
     const video = document.getElementById('preview');
     const cameraSelect = document.getElementById('cameraSelect');
     const cameraOptions = document.getElementById('cameraOptions');
+
     let mediaRecorder;
     let recordedChunks = [];
     let stream;
 
-    // Handle source type change
+    // Handle radio changes
     document.querySelectorAll('input[name="source"]').forEach(radio => {
       radio.addEventListener('change', async () => {
         if (radio.value === 'camera' && radio.checked) {
@@ -53,29 +54,39 @@
     });
 
     async function updateCameraList() {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoInputs = devices.filter(device => device.kind === 'videoinput');
-      cameraSelect.innerHTML = '';
-      videoInputs.forEach(device => {
-        const option = document.createElement('option');
-        option.value = device.deviceId;
-        option.text = device.label || `Camera ${cameraSelect.length + 1}`;
-        cameraSelect.appendChild(option);
-      });
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoInputs = devices.filter(device => device.kind === 'videoinput');
+        console.log('Available video inputs:', videoInputs);
+        cameraSelect.innerHTML = '';
+        videoInputs.forEach(device => {
+          const option = document.createElement('option');
+          option.value = device.deviceId;
+          option.text = device.label || `Camera ${cameraSelect.length + 1}`;
+          cameraSelect.appendChild(option);
+        });
+        if (videoInputs.length === 0) {
+          alert("No cameras found. Please connect a camera.");
+        }
+      } catch (err) {
+        console.error("Error listing devices:", err);
+        alert("Could not list video devices.");
+      }
     }
 
     startBtn.onclick = async () => {
       const source = document.querySelector('input[name="source"]:checked').value;
-
       try {
         if (source === 'screen') {
           stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
         } else {
-          const deviceId = cameraSelect.value;
-          stream = await navigator.mediaDevices.getUserMedia({
-            video: { deviceId: { exact: deviceId } },
-            audio: true
-          });
+          const constraints = {
+            audio: true,
+            video: cameraSelect.value
+              ? { deviceId: { exact: cameraSelect.value } }
+              : true // fallback to default camera
+          };
+          stream = await navigator.mediaDevices.getUserMedia(constraints);
         }
 
         video.srcObject = stream;
@@ -99,17 +110,29 @@
         startBtn.disabled = true;
         stopBtn.disabled = false;
       } catch (err) {
-        console.error('Error accessing media:', err);
-        alert('Could not access media: ' + err.message);
+        console.error("Recording error:", err);
+        alert("Could not access media: " + err.message);
       }
     };
 
     stopBtn.onclick = () => {
-      mediaRecorder.stop();
-      stream.getTracks().forEach(track => track.stop());
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+      }
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
       startBtn.disabled = false;
       stopBtn.disabled = true;
     };
+
+    // Optional: pre-load cameras if "camera" is selected by default
+    window.addEventListener("DOMContentLoaded", () => {
+      if (document.querySelector('input[name="source"]:checked').value === 'camera') {
+        cameraOptions.style.display = 'block';
+        updateCameraList();
+      }
+    });
   </script>
 
 </body>
