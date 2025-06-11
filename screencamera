@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Screen/Camera Recorder</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    video { width: 500px; margin-top: 10px; border: 1px solid #ccc; }
+    select, button { margin-top: 10px; display: block; }
+  </style>
+</head>
+<body>
+
+  <h1>Screen / Camera Recorder</h1>
+
+  <label>
+    <input type="radio" name="source" value="screen" checked> Screen
+  </label>
+  <label>
+    <input type="radio" name="source" value="camera"> Camera
+  </label>
+
+  <div id="cameraOptions" style="display: none;">
+    <label for="cameraSelect">Select Camera:</label>
+    <select id="cameraSelect"></select>
+  </div>
+
+  <button id="startBtn">Start Recording</button>
+  <button id="stopBtn" disabled>Stop Recording</button>
+
+  <video id="preview" autoplay muted></video>
+
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const video = document.getElementById('preview');
+    const cameraSelect = document.getElementById('cameraSelect');
+    const cameraOptions = document.getElementById('cameraOptions');
+    let mediaRecorder;
+    let recordedChunks = [];
+    let stream;
+
+    // Handle source type change
+    document.querySelectorAll('input[name="source"]').forEach(radio => {
+      radio.addEventListener('change', async () => {
+        if (radio.value === 'camera' && radio.checked) {
+          cameraOptions.style.display = 'block';
+          await updateCameraList();
+        } else {
+          cameraOptions.style.display = 'none';
+        }
+      });
+    });
+
+    async function updateCameraList() {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoInputs = devices.filter(device => device.kind === 'videoinput');
+      cameraSelect.innerHTML = '';
+      videoInputs.forEach(device => {
+        const option = document.createElement('option');
+        option.value = device.deviceId;
+        option.text = device.label || `Camera ${cameraSelect.length + 1}`;
+        cameraSelect.appendChild(option);
+      });
+    }
+
+    startBtn.onclick = async () => {
+      const source = document.querySelector('input[name="source"]:checked').value;
+
+      try {
+        if (source === 'screen') {
+          stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        } else {
+          const deviceId = cameraSelect.value;
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: { deviceId: { exact: deviceId } },
+            audio: true
+          });
+        }
+
+        video.srcObject = stream;
+
+        recordedChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => {
+          if (e.data.size > 0) recordedChunks.push(e.data);
+        };
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(recordedChunks, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'recording.webm';
+          a.click();
+          URL.revokeObjectURL(url);
+        };
+
+        mediaRecorder.start();
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+      } catch (err) {
+        console.error('Error accessing media:', err);
+        alert('Could not access media: ' + err.message);
+      }
+    };
+
+    stopBtn.onclick = () => {
+      mediaRecorder.stop();
+      stream.getTracks().forEach(track => track.stop());
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+    };
+  </script>
+
+</body>
+</html>
