@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      width: 100%;
+      height: 100%;
+      font-family: Segoe UI, Arial, sans-serif;
+    }
+
+    .panel {
+      width: 100%;
+      height: 120px; /* Fixed panel height */
+      background-color: #0096D6;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 25px;
+      box-sizing: border-box;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .left, .middle, .right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left {
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      flex: 1.5;
+    }
+
+    .logo {
+      height: 60px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .content .headline {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .content .subtext {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .middle {
+      align-items: center;
+      flex: 1;
+      text-align: center;
+    }
+
+    .sponsor {
+      display: none;
+    }
+
+    .sponsor.visible {
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .sponsor .headline {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .sponsor .subtext {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10%); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .right {
+      align-items: flex-end;
+      gap: 6px;
+      flex: 1.5;
+    }
+
+    .qr {
+      height: 60px;
+      border-radius: 4px;
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+    }
+
+    .socials i {
+      font-size: 18px;
+      color: white;
+      transition: transform 0.2s;
+    }
+
+    .socials i:hover {
+      transform: scale(1.2);
+    }
+
+    .clock {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <!-- Left: Logo + Schedule -->
+    <div class="left">
+      <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAClElEQVRYR+2Xz0tUURjHP7mcmk1klTQWaJv4TxBMEIo2raUNdJGjQ6uNFBEWIHbwUmptAlRQwiuCFVRBP4H4BVFKKTYQQSi04iyAykkyRf+YOefbP97fN+/vOeecm/cDMPvLzwZlN1jMIyxT1M+ywCXMwk6xGWiE5kF3ZgOjjMUGqAA2YWGgi2UvEFzPwYt2CU+R+m1cDp9sUokjlgDYDbHwQL1RpWmmLBGEZktmF3noD9E5V4wBJ0ZhPpkVWmGd0K3H9cCOq63brPVDffw3BnsZnmPCOw+20GJ6kBjvXZ7B7AxkM4f9pUGtd7E3mM9KcxXby3A0KZLaYpoAM1W/NzBIKltHT1wMsluwZmlncN8ApAsXXvwT8DEa4CSqMWD8GoCqug3OPKP9FddoY7iR1tvEXsxE/8LQrrFwWWRrlTXQ7/A0zAfS7HTkdq5rwHqGbn/DFDErkW4hbyh7OUFQnRHFFzqvKR7EKzBcTwAw0D3SOYDZ4r5j3aMCSCb7PMSeVa64CSYzKDvAWWSPtn7wRmNGAeul7eUHTZrc7jUzDnztIAzgNsyEGDKatZIO10X3kPQMgtr9T6CToMHu0m7Q6CnwbvHrFLsjDDhVRrpS3+F+R/JHUX3ns8AAAAASUVORK5CYII=" alt="HP Logo" />
+      <div class="content">
+        <p class="headline">Streaming Schedule</p>
+        <p class="subtext">Mon–Fri: 7PM–10PM CDT<br>Sat–Sun: 2PM–6PM CDT</p>
+      </div>
+    </div>
+
+    <!-- Center: Sponsor -->
+    <div class="middle">
+      <div id="sponsor1" class="sponsor visible">
+        <p class="headline">Powered by HP</p>
+        <p class="subtext">High-performance laptops</p>
+      </div>
+      <div id="sponsor2" class="sponsor">
+        <p class="headline">NordVPN</p>
+        <p class="subtext">Your streaming privacy, protected</p>
+      </div>
+      <div id="sponsor3" class="sponsor">
+        <p class="headline">G Fuel</p>
+        <p class="subtext">Fuel your grind</p>
+      </div>
+    </div>
+
+    <!-- Right: QR, Socials, Clock -->
+    <div class="right">
+      <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://www.hp.com" alt="QR Code"/>
+      <div class="socials">
+        <i class="fab fa-youtube"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-instagram"></i>
+      </div>
+      <div class="clock" id="clock">--:-- CDT</div>
+    </div>
+  </div>
+
+  <script>
+    // Rotate Sponsors
+    const sponsors = [
+      document.getElementById('sponsor1'),
+      document.getElementById('sponsor2'),
+      document.getElementById('sponsor3')
+    ];
+    let currentSponsor = 0;
+    setInterval(() => {
+      sponsors.forEach((s, i) => s.classList.toggle('visible', i === currentSponsor));
+      currentSponsor = (currentSponsor + 1) % sponsors.length;
+    }, 10000);
+
+    // Live CDT Clock (UTC-5) in 12-hour am/pm format
+    function updateClock() {
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const cdt = new Date(utc - 5 * 3600000); // UTC-5
+
+      let h = cdt.getHours();
+      const m = String(cdt.getMinutes()).padStart(2, '0');
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12;
+      h = h ? h : 12; // the hour '0' should be '12'
+
+      document.getElementById('clock').textContent = `${h}:${m} ${ampm} CDT`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
