@@ -78,12 +78,18 @@
       font-size: 16px;
       margin: 8px 0;
     }
+
+    .btn-row {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+    }
   </style>
 </head>
 <body>
 
-  <div class="container" id="formPage">
-    <h2>Enter Your Info</h2>
+  <div class="container" id="formPage" style="display: none;">
+    <h2>Add / Update Info</h2>
     <input type="text" id="username" placeholder="Username"><br>
     <input type="password" id="password" placeholder="Password"><br>
     <input type="email" id="email" placeholder="Email"><br>
@@ -95,7 +101,10 @@
     <p><strong>Username:</strong> <span id="savedUsername"></span></p>
     <p><strong>Password:</strong> <span id="savedPassword"></span></p>
     <p><strong>Email:</strong> <span id="savedEmail"></span></p>
-    <button onclick="clearData()">Clear Data</button>
+    <div class="btn-row">
+      <button onclick="showForm()">Add More</button>
+      <button onclick="clearData()">Clear Data</button>
+    </div>
   </div>
 
   <script>
@@ -126,16 +135,28 @@
       document.getElementById("savedPage").style.display = "block";
     }
 
+    function showForm() {
+      // Pre-fill form with saved values
+      document.getElementById("username").value = localStorage.getItem("username") || "";
+      document.getElementById("password").value = localStorage.getItem("password") || "";
+      document.getElementById("email").value = localStorage.getItem("email") || "";
+
+      document.getElementById("savedPage").style.display = "none";
+      document.getElementById("formPage").style.display = "block";
+    }
+
     function clearData() {
       localStorage.clear();
       document.getElementById("savedPage").style.display = "none";
       document.getElementById("formPage").style.display = "block";
     }
 
-    // When page loads, check if data exists
+    // On load: show saved data first if available
     window.onload = function() {
       if (localStorage.getItem("username") && localStorage.getItem("password") && localStorage.getItem("email")) {
         showSavedPage();
+      } else {
+        document.getElementById("formPage").style.display = "block";
       }
     };
   </script>
