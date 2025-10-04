@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OBS Banner Overlay</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: Arial, sans-serif;
+    }
+
+    .banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #111;
+      border: 3px solid #ff4500;
+      border-radius: 12px;
+      padding: 15px 25px;
+      color: #fff;
+      width: 900px;  /* Adjust width for OBS */
+      box-shadow: 0 0 12px rgba(0,0,0,0.6);
+    }
+
+    .text-content {
+      flex: 1;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .highlight {
+      color: #ff4500; /* Orange highlight */
+    }
+
+    .subtitle {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .reddit {
+      margin-top: 10px;
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: #ff4500;
+      font-weight: bold;
+      font-size: 14px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .mascot {
+      width: 120px;
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <div class="text-content">
+      <div class="title">
+        OFFICIAL207 <span class="highlight">COMMUNITY PAGE?</span>
+      </div>
+      <div class="subtitle">
+        <span class="highlight">BEST</span> COMMUNITY ON THE ENTIRE PLATFORM?
+      </div>
+      <a class="reddit" href="https://www.reddit.com/r/streamingisaac/" target="_blank">
+        reddit r/streamingisaac
+      </a>
+    </div>
+    <img src="https://static.wikia.nocookie.net/vtech9471/images/e/ea/V.Pal.png/revision/latest?cb=20210914033914" alt="Mascot" class="mascot">
+  </div>
+</body>
+</html>
