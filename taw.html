@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Paducah Weather • Kevil Time</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#60a5fa;
+      --muted:#9aa7bf;
+      --glass: rgba(255,255,255,0.03);
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #071029 0%, #071b2b 60%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Full page centered card with big rounded corners */
+    .wrap{
+      box-sizing:border-box;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+
+    .card{
+      width:100%;
+      max-width:980px;
+      height:80vh;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:28px;
+      box-shadow: 0 12px 40px rgba(2,6,23,0.7);
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:24px;
+      padding:28px;
+      border: 1px solid rgba(255,255,255,0.03);
+      overflow: hidden;
+    }
+
+    /* Responsive stack on small screens */
+    @media (max-width:920px){
+      .card{ grid-template-columns: 1fr; height:auto; padding:20px; }
+    }
+
+    /* Left (weather) */
+    .weather {
+      padding:18px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .loc{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .loc h1{
+      margin:0;
+      font-size:20px;
+      letter-spacing:0.2px;
+    }
+    .loc p{ margin:0; color:var(--muted); font-size:13px; }
+
+    .weather-main{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .temp{
+      font-size:72px;
+      font-weight:700;
+      line-height:1;
+    }
+    .temp small{ font-size:20px; color:var(--muted); margin-left:6px; }
+
+    .weather-info{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .emoji{
+      font-size:64px;
+      width:92px;
+      text-align:center;
+    }
+
+    .meta{
+      margin-top:14px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    /* Right (clock) */
+    .clock {
+      padding:18px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006));
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:220px;
+    }
+
+    .clock .place { font-size:16px; color:var(--muted); margin-bottom:8px; }
+    .time {
+      font-weight:700;
+      font-size:56px;
+      letter-spacing:0.4px;
+    }
+    .ampm { font-size:20px; margin-left:8px; vertical-align:super; color:var(--accent); font-weight:700; }
+
+    .small-note { margin-top:12px; color:var(--muted); font-size:13px; text-align:center; }
+
+    /* Footer / small */
+    .footer {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-start;
+      color:var(--muted);
+      font-size:13px;
+      margin-top:12px;
+    }
+
+    /* Loading / error */
+    .muted { color:var(--muted); }
+    .error { color:#ffb4b4; }
+
+    /* Make everything crisp on retina */
+    @media (prefers-reduced-motion: no-preference) {
+      .card{ transition: transform .25s ease, box-shadow .25s ease; }
+      .card:hover{ transform: translateY(-4px); box-shadow: 0 20px 60px rgba(2,6,23,0.75); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="card" role="main" aria-labelledby="appTitle">
+      <!-- Weather for Paducah -->
+      <section class="weather" aria-labelledby="weatherTitle">
+        <div>
+          <div class="loc">
+            <div>
+              <h1 id="weatherTitle">Weather — Paducah, KY</h1>
+              <p id="updatedAt" class="muted">Loading weather…</p>
+            </div>
+          </div>
+
+          <div class="weather-main" style="align-items:center;">
+            <div class="emoji" id="wEmoji" aria-hidden="true">☀️</div>
+            <div>
+              <div style="display:flex;align-items:baseline;gap:8px;">
+                <div class="temp" id="temperature">—°</div>
+                <div class="weather-info" style="min-width:160px;">
+                  <div id="description">—</div>
+                  <div id="feels" class="muted">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="meta" aria-hidden="false">
+            <div id="wind">Wind: —</div>
+            <div id="pressure">Pressure: —</div>
+            <div id="humidity">Humidity: —</div>
+          </div>
+        </div>
+
+        <div class="footer" aria-hidden="false">
+          <div class="muted">Source: Open-Meteo (free)</div>
+          <div style="margin-left:auto;" class="muted">Units: Celsius (change in code)</div>
+        </div>
+      </section>
+
+      <!-- Clock for Kevil -->
+      <aside class="clock" aria-labelledby="timeTitle">
+        <div>
+          <div class="place" id="timePlace">Kevil, KY — Current time</div>
+          <div style="display:flex;align-items:baseline;justify-content:center;">
+            <div class="time" id="kevTime">--:--:--</div>
+            <div class="ampm" id="ampm">AM</div>
+          </div>
+          <div class="small-note muted">Time updates every second (with seconds shown).</div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    // ---------------------------
+    // CONFIG: coordinates & timezone
+    // ---------------------------
+    // Paducah, KY coordinates (lat, lon)
+    const PADUCAH = { lat: 37.0834, lon: -88.6000 };
+    // Kevil, KY timezone — both Paducah & Kevil are in Central Time (America/Chicago)
+    const KEVIL_TZ = 'America/Chicago';
+
+    // Weather units: "temperature_unit" param can be "celsius" or "fahrenheit" with Open-Meteo.
+    // We'll use Celsius by default. To use Fahrenheit, change tempUnit to 'fahrenheit' and adjust display.
+    const tempUnit = 'celsius'; // set 'fahrenheit' if you prefer
+
+    // ---------------------------
+    // Weather code -> description & emoji helpers
+    // Open-Meteo weathercode mapping reference (simplified)
+    // ---------------------------
+    const weatherCodeMap = {
+      0:{d:'Clear sky', e:'☀️'},
+      1:{d:'Mainly clear', e:'🌤️'},
+      2:{d:'Partly cloudy', e:'⛅'},
+      3:{d:'Overcast', e:'☁️'},
+      45:{d:'Fog', e:'🌫️'},
+      48:{d:'Depositing rime fog', e:'🌫️'},
+      51:{d:'Light drizzle', e:'🌦️'},
+      53:{d:'Moderate drizzle', e:'🌦️'},
+      55:{d:'Dense drizzle', e:'🌧️'},
+      56:{d:'Light freezing drizzle', e:'🌧️❄️'},
+      57:{d:'Dense freezing drizzle', e:'🌧️❄️'},
+      61:{d:'Slight rain', e:'🌧️'},
+      63:{d:'Moderate rain', e:'🌧️'},
+      65:{d:'Heavy rain', e:'⛈️'},
+      66:{d:'Light freezing rain', e:'🌧️❄️'},
+      67:{d:'Heavy freezing rain', e:'🌧️❄️'},
+      71:{d:'Slight snow fall', e:'🌨️'},
+      73:{d:'Moderate snow fall', e:'🌨️'},
+      75:{d:'Heavy snow fall', e:'❄️'},
+      77:{d:'Snow grains', e:'❄️'},
+      80:{d:'Slight rain showers', e:'🌦️'},
+      81:{d:'Moderate rain showers', e:'🌧️'},
+      82:{d:'Violent rain showers', e:'⛈️'},
+      85:{d:'Slight snow showers', e:'🌨️'},
+      86:{d:'Heavy snow showers', e:'❄️'},
+      95:{d:'Thunderstorm', e:'⛈️'},
+      96:{d:'Thunderstorm with slight hail', e:'⛈️'},
+      99:{d:'Thunderstorm with heavy hail', e:'⛈️'},
+    };
+
+    // ---------------------------
+    // DOM references
+    // ---------------------------
+    const temperatureEl = document.getElementById('temperature');
+    const descriptionEl = document.getElementById('description');
+    const feelsEl = document.getElementById('feels');
+    const windEl = document.getElementById('wind');
+    const pressureEl = document.getElementById('pressure');
+    const humidityEl = document.getElementById('humidity');
+    const emojiEl = document.getElementById('wEmoji');
+    const updatedAtEl = document.getElementById('updatedAt');
+
+    // KEVIL TIME elements
+    const kevTimeEl = document.getElementById('kevTime');
+    const ampmEl = document.getElementById('ampm');
+    const timePlaceEl = document.getElementById('timePlace');
+
+    // ---------------------------
+    // Fetch weather from Open-Meteo
+    // API used: https://api.open-meteo.com/v1/forecast
+    // We request current_weather plus hourly values for humidity/pressure (approx)
+    // ---------------------------
+    async function fetchPaducahWeather(){
+      try{
+        const { lat, lon } = PADUCAH;
+        // Open-Meteo current weather endpoint; add hourly humidity & pressure for extra details
+        const url = new URL('https://api.open-meteo.com/v1/forecast');
+        url.searchParams.set('latitude', lat);
+        url.searchParams.set('longitude', lon);
+        url.searchParams.set('current_weather', 'true');
+        url.searchParams.set('timezone', 'America/Chicago'); // ensure times match local
+        // hourly fields for additional metadata (we'll pick the latest hourly values)
+        url.searchParams.set('hourly', 'relativehumidity_2m,surface_pressure');
+        url.searchParams.set('temperature_unit', tempUnit === 'fahrenheit' ? 'fahrenheit' : 'celsius');
+
+        const resp = await fetch(url.toString(), { cache: 'no-store' });
+        if(!resp.ok) throw new Error('Weather API error: ' + resp.status);
+        const data = await resp.json();
+
+        // current_weather object has temperature, windspeed, winddirection, weathercode, time
+        const cw = data.current_weather;
+        if(!cw) throw new Error('No current weather returned.');
+
+        const temp = Math.round(cw.temperature);
+        const weatherCode = cw.weathercode;
+        const wind = cw.windspeed;
+        const time = cw.time;
+
+        // For humidity and pressure use hourly arrays (take the latest matching hour)
+        let humidity = '—', pressure = '—';
+        if(data.hourly && data.hourly.time && data.hourly.relativehumidity_2m){
+          // find index of matching hour
+          const idx = data.hourly.time.lastIndexOf(time.split('T')[0] + 'T' + time.split('T')[1].split(':').slice(0,2).join(':') + ':00');
+          // fallback: use last available
+          const i = idx >= 0 ? idx : data.hourly.time.length - 1;
+          humidity = data.hourly.relativehumidity_2m[i] !== undefined ? data.hourly.relativehumidity_2m[i] + '%' : '—';
+        }
+        if(data.hourly && data.hourly.surface_pressure){
+          const i = data.hourly.time.length - 1;
+          pressure = data.hourly.surface_pressure[i] !== undefined ? Math.round(data.hourly.surface_pressure[i]) + ' hPa' : '—';
+        }
+
+        // Update UI
+        temperatureEl.textContent = `${temp}°`;
+        const mapping = weatherCodeMap[weatherCode] || { d: 'Unknown', e: '🌈' };
+        descriptionEl.textContent = mapping.d;
+        emojiEl.textContent = mapping.e;
+        feelsEl.textContent = `Weather code: ${weatherCode}`;
+        windEl.textContent = `Wind: ${wind} ${tempUnit === 'fahrenheit' ? 'km/h' : 'km/h'}`; // Open-Meteo default wind unit is km/h
+        pressureEl.textContent = `Pressure: ${pressure}`;
+        humidityEl.textContent = `Humidity: ${humidity}`;
+
+        const updated = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago', hour12:true });
+        updatedAtEl.textContent = `Last updated: ${updated}`;
+      }catch(err){
+        console.error(err);
+        temperatureEl.textContent = '—°';
+        descriptionEl.textContent = 'Unable to load weather';
+        emojiEl.textContent = '❌';
+        feelsEl.textContent = '';
+        windEl.textContent = '';
+        pressureEl.textContent = '';
+        humidityEl.textContent = '';
+        updatedAtEl.innerHTML = `<span class="error">Weather load failed</span>`;
+      }
+    }
+
+    // Initial fetch & periodic refresh every 10 minutes
+    fetchPaducahWeather();
+    setInterval(fetchPaducahWeather, 10 * 60 * 1000);
+
+    // ---------------------------
+    // Clock for Kevil, KY with seconds (12-hour AM/PM)
+    // Uses Intl.DateTimeFormat for correct timezone conversion
+    // ---------------------------
+    function updateKevilTime(){
+      try{
+        const now = new Date();
+        // Use Intl to get the time components in the KEVIL_TZ timezone
+        // We'll format hour:minute:second and separately the AM/PM marker
+        const timeFormatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: KEVIL_TZ,
+          hour12: true,
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+        const parts = timeFormatter.formatToParts(now);
+        const hour = parts.find(p => p.type === 'hour')?.value ?? '--';
+        const minute = parts.find(p => p.type === 'minute')?.value ?? '--';
+        const second = parts.find(p => p.type === 'second')?.value ?? '--';
+        const dayPeriod = parts.find(p => p.type === 'dayPeriod')?.value ?? '';
+
+        kevTimeEl.textContent = `${hour}:${minute}:${second}`;
+        ampmEl.textContent = dayPeriod.toUpperCase();
+
+        // Also update label with explicit timezone offset/timezone name if desired
+        const longDate = new Intl.DateTimeFormat('en-US', {
+          timeZone: KEVIL_TZ,
+          year:'numeric', month:'short', day:'numeric',
+          hour12: false
+        }).format(now);
+        // Keep place text simple
+        timePlaceEl.textContent = `Kevil, KY — ${KEVIL_TZ} (local)`;
+      }catch(e){
+        console.error('Time update error', e);
+        kevTimeEl.textContent = '--:--:--';
+        ampmEl.textContent = '';
+        timePlaceEl.textContent = 'Kevil, KY';
+      }
+    }
+
+    // Update every 250ms to keep seconds in-sync (once per second would do, but keep snappy)
+    updateKevilTime();
+    setInterval(updateKevilTime, 1000);
+
+    // Accessibility: announce when weather refreshed (for screenreader)
+    // We'll update a visually-hidden aria-live region if needed (not implemented visually here).
+  </script>
+</body>
+</html>
