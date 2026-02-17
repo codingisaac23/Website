@@ -130,16 +130,32 @@
             <li><a href="screenrecorder.html">Screen Recorder</a></li>
             <li><a href="stream.html">Live Stream</a></li>
             <li><a href="clock.html">Clock</a></li>
-        </ul>
-    </nav>
-        <h1>Live</h1>
-        <iframe
-        frameBorder="0"
-        allow="camera https://userId-566-43e07f16bc.cloud.red5.net; microphone https://userId-566-43e07f16bc.cloud.red5.net;"
-        src="https://userId-566-43e07f16bc.cloud.red5.net/red5/r5-player.html?host=userId-566-43e07f16bc.cloud.red5.net&node_group=Baselin-64fA&app=live&stream_name=mystream&api_version=v1&mode=sub"></iframe>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            </ui>
+   <!-- Paste the following into the <head>  -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+
+<style>
+ #clappr{ width: 100%;height: 100%;position: relative; min-height: 320px; margin-bottom: 25px;}
+ #clappr > div{ width:100%;height:100%;position: absolute;}
+</style>
+
+
+<!-- Paste the following into the <body> -->
+
+<div id="clappr"></div>
+<script>
+ var player = new Clappr.Player({
+  source:
+       "https://5caf24a595d94.streamlock.net:1937/rspwyfaxym/rspwyfaxym/playlist.m3u8"
+   ,
+    parentId: "#clappr",
+  width: '100%',
+  height: '100%',
+  autoPlay: false,
+    //gaAccount: 'UA-44332211-1',
+  //gaTrackerName: 'MyPlayerInstance'
+  });
+</script>
 </nav>
 </body>
 </html>
+
