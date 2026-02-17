@@ -130,31 +130,9 @@
             <li><a href="screenrecorder.html">Screen Recorder</a></li>
             <li><a href="stream.html">Live Stream</a></li>
             <li><a href="clock.html">Clock</a></li>
-   <!-- Paste the following into the <head>  -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-
-<style>
- #clappr{ width: 100%;height: 100%;position: relative; min-height: 320px; margin-bottom: 25px;}
- #clappr > div{ width:100%;height:100%;position: absolute;}
-</style>
-
-
-<!-- Paste the following into the <body> -->
-
-<div id="clappr"></div>
-<script>
- var player = new Clappr.Player({
-  source:
-       "https://5caf24a595d94.streamlock.net:1937/rspwyfaxym/rspwyfaxym/playlist.m3u8"
-   ,
-    parentId: "#clappr",
-  width: '100%',
-  height: '100%',
-  autoPlay: false,
-    //gaAccount: 'UA-44332211-1',
-  //gaTrackerName: 'MyPlayerInstance'
-  });
-</script>
+ <div style="position: relative; overflow: hidden; width: 100%;padding-top: 56.25%;">
+    <iframe width="560" height="300" referrerpolicy="origin" src="https://www.wowzacontrol.com/VideoPlayer/rspwyfaxym?autoplay=1" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;width: 100%;height: 100%;" scrolling="no" frameborder="0" allow="autoplay" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+</div>
 </nav>
 </body>
 </html>
