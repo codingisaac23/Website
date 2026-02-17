@@ -1,31 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Moved</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        overflow: hidden;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        padding: 50px 40px;
+        text-align: center;
+        max-width: 500px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        animation: fadeIn 1s ease forwards;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-size: 1rem;
+        opacity: 0.85;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 14px 30px;
+        font-size: 1rem;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #00c6ff, #0072ff);
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0,114,255,0.4);
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0,114,255,0.6);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 20px;
+        font-size: 0.8rem;
+        opacity: 0.6;
+    }
+</style>
 </head>
 <body>
-      <h1>Welcome to My Website</h1>
-     <nav>
-        <ul>
-            <li><a href="beamngmods.html">BeamNG.drive Mods</a></li>
-            <li><a href="aboutme.html">About Me</a></li>
-            <li><a href="contactme.html">Contact Me</a></li>
-            <li><a href="lateststream.html">Latest Stream</a></li>
-            <li><a href="downloads.html">Downloads</a></li>
-            <li><a href="search.html">Search</a></li>
-            <li><a href="searchandplay.html">Search and Play</a></li>
-            <li><a href="screenrecorder.html">Screen Recorder</a></li>
-            <li><a href="stream.html">Live Stream</a></li>
-            <li><a href="clock.html">Clock</a></li>
-        </ul>
-    </nav>
-    <p>Click the links above to navigate.</p>
+
+<div class="card">
+    <h1>Website Has Moved</h1>
+    <p>
+        This website has officially been shut down and relocated to a new domain.  
+        Please visit our updated platform to continue accessing our services and content.
+    </p>
+    <a class="btn" href="https://collierstudios.wasmer.app/">
+        Visit New Website
+    </a>
+</div>
+
+<div class="footer">
+    © 2026 Collier Studios. All rights reserved.
+</div>
+
 </body>
 </html>
